@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "strict": true,
+      "skipLibCheck": true,
+      "target": "ES2022",
+      "module": "NodeNext",
+      "moduleResolution": "NodeNext",
+      "resolveJsonModule": true,
+      "esModuleInterop": true,
+      "types": ["node"],
+    }
+  }
