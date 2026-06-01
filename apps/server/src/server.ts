@@ -1,57 +1,26 @@
-import express from "express";
+import app from "./app";
 
-import helmet from "helmet";
+import { env } from "./config/env";
 
-import cors from "cors";
+import { connectDatabase }
+from "./config/database";
 
-import compression from "compression";
+import { logger }
+from "./config/logger";
 
-import rateLimit from "express-rate-limit";
+const startServer =
+async () => {
 
-import swaggerUi from "swagger-ui-express";
+  await connectDatabase();
 
-import healthRoute from "./routes/health.route";
+  app.listen(
+    env.PORT,
+    () => {
+      logger.info(
+        `Server running on ${env.PORT}`
+      );
+    }
+  );
+};
 
-import { swaggerSpec } from "./docs/swagger";
-
-import { requestLogger }
-from "./middleware/request-logger.middleware";
-
-import { errorMiddleware }
-from "./middleware/error.middleware";
-
-import { notFoundMiddleware }
-from "./middleware/not-found.middleware";
-
-const app = express();
-
-app.use(requestLogger);
-
-app.use(helmet());
-
-app.use(cors());
-
-app.use(compression());
-
-app.use(express.json());
-
-app.use(
-  rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100
-  })
-);
-
-app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec)
-);
-
-app.use("/api/v1", healthRoute);
-
-app.use(notFoundMiddleware);
-
-app.use(errorMiddleware);
-
-export default app;
+startServer();
