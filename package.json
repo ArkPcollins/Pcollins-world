@@ -13,13 +13,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devEngines": {
-    "packageManager": {
-      "name": "pnpm",
-      "version": "^11.4.0",
-      "onFail": "download"
-    }
-  },
+  "packageManager": "pnpm@11.4.0",
   "type": "module",
   "devDependencies": {
     "@types/node": "^25.9.1",
