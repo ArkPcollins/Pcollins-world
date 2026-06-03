@@ -1,51 +1,17 @@
-import { Request, Response }
-from "express";
+import { Router } from "express";
 
-import { AuthService }
-from "./auth.service";
+import { asyncHandler } from "../../utils/asyncHandler";
 
-import { ApiResponse }
-from "../../utils/ApiResponse";
+import { AuthController } from "./auth.controller";
+import { validate } from "../middleware/validate.middleware";
+import { loginSchema, registerSchema } from "./auth.validation";
 
-export class AuthController {
+const router = Router();
 
-  private service =
-    new AuthService();
+const controller = new AuthController();
 
-  register = async (
-    req: Request,
-    res: Response
-  ) => {
+router.post("/register", validate(registerSchema), asyncHandler(controller.register));
 
-    const user =
-      await this.service.register(
-        req.body
-      );
+router.post("/login", validate(loginSchema), asyncHandler(controller.login));
 
-    res.status(201).json(
-      new ApiResponse(
-        "Registration successful",
-        user
-      )
-    );
-  };
-
-  login = async (
-    req: Request,
-    res: Response
-  ) => {
-
-    const result =
-      await this.service.login(
-        req.body.email,
-        req.body.password
-      );
-
-    res.json(
-      new ApiResponse(
-        "Login successful",
-        result
-      )
-    );
-  };
-}
+export default router;
