@@ -8,7 +8,7 @@ import { swaggerSpec } from "./docs/swagger";
 import { requestLogger } from "./middleware/request-logger.middleware";
 import { errorMiddleware } from "./middleware/error.middleware";
 import { notFoundMiddleware } from "./middleware/not-found.middleware";
-import allRoutes from "./routes";
+import allRoutes from "./routes/index";
 
 const app = express();
 
