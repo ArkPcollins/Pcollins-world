@@ -33,4 +33,20 @@ export class UserRepository {
       }
     );
   }
+  
+  async updateProfileStatus(
+    userId: string,
+    status: boolean
+  ) {
+    return UserModel.findByIdAndUpdate(userId, {
+      profileCompleted: status
+    });
+  }
+  
+  async updateLastLogin(userId: string) {
+    return UserModel.findByIdAndUpdate(userId, {
+      lastLoginAt: new Date()
+    });
+  }
 }
+

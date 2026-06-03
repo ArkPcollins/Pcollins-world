@@ -29,11 +29,11 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    avatar: String,
+    avatar: {type: String},
 
-    phone: String,
+    phone: {type: String},
 
-    address: String,
+    address: {type: String},
 
     role: {
       type: String,
@@ -41,12 +41,26 @@ const userSchema = new mongoose.Schema(
       default: UserRole.USER,
     },
 
+    verificationToken: {
+      type: String,
+    },
+    verificationExpires: {
+      type: Date,
+    },
+    passwordResetToken: {
+      type: String,
+    },
+    passwordResetExpires: {
+      type: Date,
+    },
     isVerified: {
       type: Boolean,
       default: false,
     },
 
-    refreshToken: String,
+    refreshToken: {type: String},
+    profileCompleted: {type: Boolean, default: false},
+    lastLoginAt: {type: Date},
     ...baseSchemaFields,
   },
   baseSchemaOptions
