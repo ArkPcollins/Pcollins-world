@@ -7,9 +7,10 @@ import {
   
   import { JwtService }
   from "../services/jwt.service";
+import { UserModel } from "../users/user.model";
   
   export const authenticate =
-  (
+  async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -36,7 +37,9 @@ import {
         token
       );
   
-    req.user = decoded;
+      const userId = decoded.userId;
+      const user = await UserModel.findById(userId);
+      req.user = user;
   
     next();
   };

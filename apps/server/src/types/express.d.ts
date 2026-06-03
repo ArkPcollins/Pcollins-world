@@ -5,8 +5,8 @@ declare global {
   namespace Express {
     interface Request {
       user?: {
-        id: string;
-        role: UserRole;
+        id?: string;
+        role?: UserRole;
         // Add any other user properties your JWT payload contains
       };
     }
