@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 
 import { KYCService } from "./kyc.service";
-
-import { apiResponse } from "../../utils/ApiResponse";
+import { apiResponse } from "../../utils/apiResponse";
 
 export class KYCController {
   private service = new KYCService();

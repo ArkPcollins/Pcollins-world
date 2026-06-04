@@ -29,11 +29,11 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    avatar: {type: String},
+    avatar: { type: String },
 
-    phone: {type: String},
+    phone: { type: String },
 
-    address: {type: String},
+    address: { type: String },
 
     role: {
       type: String,
@@ -58,9 +58,22 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
 
-    refreshToken: {type: String},
-    profileCompleted: {type: Boolean, default: false},
-    lastLoginAt: {type: Date},
+    refreshToken: { type: String },
+    profileCompleted: { type: Boolean, default: false },
+    lastLoginAt: { type: Date },
+    isSuspended: {
+      type: Boolean,
+      default: false,
+    },
+    suspensionReason: { type: String },
+    verifiedAgent: {
+      type: Boolean,
+      default: false,
+    },
+    verifiedLandlord: {
+      type: Boolean,
+      default: false,
+    },
     ...baseSchemaFields,
   },
   baseSchemaOptions

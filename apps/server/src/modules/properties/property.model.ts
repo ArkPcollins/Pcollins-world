@@ -72,7 +72,7 @@ const propertySchema = new mongoose.Schema(
         url: String,
         type: {
           type: String,
-          enum: ["IMAGE", "VIDEO", "TOUR"]
+          enum: ["image", "video", "tour"]
         }
       }
     ],
@@ -86,7 +86,21 @@ const propertySchema = new mongoose.Schema(
     views: {
       type: Number,
       default: 0
-    }
+    },
+    approvalStatus: {
+      type: String,
+      enum: [
+        "pending",
+        "approved",
+        "rejected"
+      ],
+      default: "pending"
+    },
+     isRemoved:{
+      type:Boolean,
+      default:false
+     },
+     rejectionReason:String
   },
   { timestamps: true }
 );
