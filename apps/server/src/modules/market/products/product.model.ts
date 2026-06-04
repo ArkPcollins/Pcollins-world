@@ -53,6 +53,16 @@ const productSchema = new mongoose.Schema(
     salesCount: {
       type: Number,
       default: 0
+    },
+    createdBy: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      required: true
+    },
+    
+    updatedBy: {
+      type: mongoose.Types.ObjectId,
+      ref: "User"
     }
   },
   { timestamps: true }
