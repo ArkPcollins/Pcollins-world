@@ -1,15 +1,37 @@
-version: '3.9'
 
 services:
 
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+
+    restart: always
+
+    ports:
+      - "5000:5000"
+
+    env_file:
+      - .env.production
+
   mongo:
     image: mongo:8
+
     restart: always
+
     ports:
       - "27017:27017"
 
+    volumes:
+      - mongo-data:/data/db
+
   redis:
     image: redis:7
+
     restart: always
+
     ports:
       - "6379:6379"
+
+volumes:
+  mongo-data:
