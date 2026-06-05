@@ -5,6 +5,8 @@
   "main": "index.js",
   "private": true,
   "scripts": {
+    "dev:all": "pnpm --recursive --parallel run dev",
+    "build:all": "pnpm --recursive run build",
     "dev": "turbo run dev",
     "build": "turbo run build",
     "lint": "turbo run lint",

@@ -13,11 +13,12 @@ const io = initSocket(server);
 
 const startServer = async () => {
   try {
-    connectRedis()
-    await connectDatabase();
-
-    server.listen(env.PORT, () => {
+    
+    console.log(env.PORT,'the port')
+    server.listen(env.PORT, async() => {
       logger.info(`Server and WebSockets running on port ${env.PORT}`);
+      connectRedis()
+      await connectDatabase();
     });
   } catch (error) {
     logger.error("Failed to start the server:", error);
