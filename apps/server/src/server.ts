@@ -4,6 +4,8 @@ import { env } from "./config/env.js"; // Added .js extension for consistency
 import { connectDatabase } from "./config/database.js";
 import { logger } from "./config/logger.js";
 import { initSocket } from "./modules/realtime/socket/socket.server.js";
+import { connectRedis } from "./config/redis.js";
+
 
 const server = http.createServer(app);
 
@@ -11,6 +13,7 @@ const io = initSocket(server);
 
 const startServer = async () => {
   try {
+    connectRedis()
     await connectDatabase();
 
     server.listen(env.PORT, () => {

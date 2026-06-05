@@ -59,23 +59,28 @@ const propertySchema = new mongoose.Schema(
       ref: "User",
       index: true
     },
-
+    media:[
+      {
+       url:String,
+     
+       publicId:String,
+     
+       type:{
+        type:String,
+        enum:[
+          "image",
+          "video",
+          "document"
+        ]
+       }
+      }
+     ],
     features: {
       bedrooms: Number,
       bathrooms: Number,
       toilets: Number,
       furnished: Boolean
     },
-
-    media: [
-      {
-        url: String,
-        type: {
-          type: String,
-          enum: ["image", "video", "tour"]
-        }
-      }
-    ],
 
     isFeatured: {
       type: Boolean,

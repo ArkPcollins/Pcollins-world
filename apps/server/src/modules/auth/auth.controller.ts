@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { AuthService } from "./auth.service";
 
-import { apiResponse } from "../../utils/ApiResponse";
+import { apiResponse } from "../../utils/apiResponse";
 
 export class AuthController {
   private service = new AuthService();

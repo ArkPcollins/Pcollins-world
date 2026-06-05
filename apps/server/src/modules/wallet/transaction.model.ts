@@ -49,7 +49,11 @@ const transactionSchema = new mongoose.Schema(
 
     metadata: {
       type: Object
-    }
+    },
+    paymentProof:{
+      url:String,
+      publicId:String
+     }
   },
   { timestamps: true }
 );

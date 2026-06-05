@@ -14,10 +14,20 @@ const app = express();
 
 app.use(requestLogger);
 
+const WEB_URL = process.env.WEB_URL || "http://localhost:3000";
+const ADMIN_URL = process.env.ADMIN_URL || "http://localhost:3001";
+
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({policy: "cross-origin"}));
 
-app.use(cors());
+app.set("trust proxy",1);
+
+app.use(cors({
+  origin:[
+    WEB_URL,
+    ADMIN_URL
+  ]
+ }));
 
 app.use(compression());
 
