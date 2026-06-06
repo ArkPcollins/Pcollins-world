@@ -5,7 +5,7 @@ import { ApiError } from "../../utils/ApiError";
 import { AuthRepository } from "./auth.repository";
 import { JwtService } from "../services/jwt.service";
 import { SessionModel } from "../sessions/session.model";
-import { serviceResponse } from "../../utils/ApiResponse";
+import { serviceResponse } from "@/utils/apiResponse";
 
 export class AuthService {
   private repository = new AuthRepository();

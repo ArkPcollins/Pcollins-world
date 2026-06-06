@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-import { UserRole } from "../shared/enums/role.enum";
 import {
   baseSchemaFields,
   baseSchemaOptions,
 } from "../shared/database/base.schema";
+import { UserRole } from "../../enum/role.enum";
 
 const userSchema = new mongoose.Schema(
   {

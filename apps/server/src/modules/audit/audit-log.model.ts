@@ -5,35 +5,34 @@ const auditLogSchema = new mongoose.Schema(
     userId: {
       type: mongoose.Types.ObjectId,
       ref: "User",
-      index: true
+      index: true,
     },
 
     action: {
       type: String,
-      required: true
+      required: true,
     },
 
     module: {
       type: String,
-      required: true
+      required: true,
     },
 
     metadata: {
-      type: Object
+      type: Object,
     },
 
     ipAddress: String,
 
-    userAgent: String
+    userAgent: String,
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
 auditLogSchema.index({
-  createdAt: -1
+  createdAt: -1,
 });
 
-export const AuditLogModel =
-  mongoose.model("AuditLog", auditLogSchema);
+export const AuditLogModel = mongoose.model("AuditLog", auditLogSchema);

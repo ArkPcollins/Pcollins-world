@@ -27,14 +27,13 @@ export class ProductController {
     return apiResponse(res, true, "Products fetched", cart);
   };
 
-  search = async (req: any, res: Response) => {
-    await this.service.searchProducts(req.query.text as string);
+getOne = async (req: any, res: Response) => {
+  const product = await this.service.getProduct(req.params.id); 
+  return apiResponse(res, true, "Product fetched", product);
+};
 
-    return apiResponse(res, true, "Product itme searched");
-  };
-  getOne = async (req: any, res: Response) => {
-    await this.service.getProduct(req.user.userId);
-
-    return apiResponse(res, true, "Cart cleared");
-  };
+search = async (req: any, res: Response) => {
+  const results = await this.service.searchProducts(req.query.q as string);
+  return apiResponse(res, true, "Search results", results);
+};
 }
