@@ -29,7 +29,11 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    avatar: { type: String },
+    avatar: {
+      type: String,
+      default:
+        "https://cdn.vectorstock.com/i/1000v/41/91/avatar-default-user-profile-icon-simple-flat-grey-vector-57234191.jpg",
+    },
 
     phone: { type: String },
 
