@@ -22,7 +22,9 @@ export class FavoriteController {
   };
 
   getMyFavorites = async (req: any, res: Response) => {
-    const favorites = await this.service.getUserFavorites(req.user.userId);
+    const page = req.query.page ? parseInt(req.query.page as string) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
+    const favorites = await this.service.getUserFavorites(req.user.userId, page, limit);
     return apiResponse(res, true, "Favorites fetched", favorites);
   };
 

@@ -34,6 +34,11 @@ const userSchema = new mongoose.Schema(
     phone: { type: String },
 
     address: { type: String },
+    firebaseId: {
+      type: String,
+      sparse: true,
+      index: true,
+    },
 
     role: {
       type: String,

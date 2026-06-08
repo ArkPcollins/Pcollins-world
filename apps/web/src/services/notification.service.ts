@@ -1,32 +1,29 @@
-import { api }
-from "../lib/axios";
+import { api } from "@/lib/axios";
+
 
 export class NotificationService {
+  static async getNotifications(params?: { page?: number; limit?: number }) {
+    const response = await api.get("/notifications", { params });
+    return response.data;
+  }
 
- static async list(){
+  static async markAsRead(notificationId: string) {
+    const response = await api.patch(`/notifications/${notificationId}/read`);
+    return response.data;
+  }
 
-   const response=
-   await api.get(
-    "/notifications"
-   );
+  static async markAllAsRead() {
+    const response = await api.patch("/notifications/read-all");
+    return response.data;
+  }
 
-   return response.data;
+  static async deleteNotification(notificationId: string) {
+    const response = await api.delete(`/notifications/${notificationId}`);
+    return response.data;
+  }
 
- }
-
- static async markRead(
-   id:string
- ){
-
-   const response=
-   await api.patch(
-
-    `/notifications/${id}/read`
-
-   );
-
-   return response.data;
-
- }
-
+  static async getUnreadCount() {
+    const response = await api.get("/notifications/unread/count");
+    return response.data;
+  }
 }

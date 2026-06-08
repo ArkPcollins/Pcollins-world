@@ -1,55 +1,29 @@
+import { FormInput } from "@/ui";
 import { useForm } from "react-hook-form";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { useMutation } from "@tanstack/react-query";
-
-import toast from "react-hot-toast";
-
-import { loginSchema } from "../../schemas/auth.schema";
-
-import { AuthService } from "../../services/auth.service";
-
-import { authStore } from "../../store/auth.store";
-import { Button, FormInput } from "@/ui";
-
+interface LoginFormInputs {
+  email: string;
+}
 
 export function LoginForm() {
-  const login = authStore((state) => state.login);
-
-  const form = useForm({
-    resolver: zodResolver(loginSchema),
+  // 1. Initialize React Hook Form
+  const { control, handleSubmit } = useForm<LoginFormInputs>({
+    defaultValues: { email: "" }
   });
 
-  const mutation = useMutation({
-    mutationFn: AuthService.login,
-
-    onSuccess: (data) => {
-      login(data.accessToken, data.user);
-
-      toast.success("Welcome back");
-    },
-  });
+  const onSubmit = (data: LoginFormInputs) => console.log(data);
 
   return (
-    <form
-      onSubmit={form.handleSubmit((data) => mutation.mutate(data))}
-      className="
-       space-y-4
-      "
-    >
-      <FormInput control={form.control} name="email" label="Email" />
-
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {/* 2. 🟢 FIX: Pass 'name' and 'control'. Remove manual value/onChange. */}
       <FormInput
-        control={form.control}
-        name="password"
-        label="Password"
-        type="password"
+        name="email"
+        label="Email Address"
+        type="email"
+        control={control}
+        placeholder="you@example.com"
       />
-
-      <Button type="submit" loading={mutation.isPending}>
-        Login
-      </Button>
+      <button type="submit">Submit</button>
     </form>
   );
 }

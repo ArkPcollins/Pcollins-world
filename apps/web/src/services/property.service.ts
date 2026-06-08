@@ -1,65 +1,73 @@
 import { api } from "@/lib/axios";
 
 export class PropertyService {
-  static async list(params?: any) {
-    const response = await api.get(
-      "/properties",
-      { params }
-    );
-
+  static async list(params?: {
+    page?: number;
+    limit?: number;
+    city?: string;
+    type?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    featured?: boolean;
+    status?: string;
+    search?: string;  // Add search parameter
+  }) {
+    const response = await api.get("/properties", { params });
     return response.data;
   }
 
-  static async getById(id: string) {
-    const response = await api.get(
-      `/properties/${id}`
-    );
-
+  static async getOne(id: string) {
+    const response = await api.get(`/properties/${id}`);
     return response.data;
   }
 
-  static async favorite(id: string) {
-    const response = await api.post(
-      `/properties/${id}/favorite`
-    );
-
+  static async search(query: string) {
+    const response = await api.get("/properties/search", { params: { q: query } });
     return response.data;
   }
 
-  static async unfavorite(id: string) {
-    const response = await api.delete(
-      `/properties/${id}/favorite`
-    );
-
+  static async create(payload: any) {
+    const response = await api.post("/properties", payload);
     return response.data;
   }
 
-  static async compare(ids: string[]) {
-    const response = await api.post(
-      "/properties/compare",
-      { ids }
-    );
+  static async update(id: string, payload: any) {
+    const response = await api.patch(`/properties/${id}`, payload);
+    return response.data;
+  }
 
+  static async delete(id: string) {
+    const response = await api.delete(`/properties/${id}`);
+    return response.data;
+  }
+
+  static async getFavorites() {
+    const response = await api.get("/favorites");
+    return response.data;
+  }
+
+  static async addFavorite(propertyId: string) {
+    const response = await api.post(`/favorites/${propertyId}`);
+    return response.data;
+  }
+
+  static async removeFavorite(propertyId: string) {
+    const response = await api.delete(`/favorites/${propertyId}`);
+    return response.data;
+  }
+
+  static async checkFavorite(propertyId: string) {
+    const response = await api.get(`/favorites/${propertyId}/check`);
+    return response.data;
+  }
+
+  static async getRecentlyViewed() {
+    const response = await api.get("/properties/recently-viewed");
     return response.data;
   }
 
   static async recommendations() {
-    const response = await api.get(
-      "/properties/recommendations"
-    );
-
-    return response.data;
-  }
-
-  static async bookInspection(
-    propertyId: string,
-    payload: any
-  ) {
-    const response = await api.post(
-      `/properties/${propertyId}/inspection`,
-      payload
-    );
-
+    const response = await api.get("/properties/recommendations");
     return response.data;
   }
 }

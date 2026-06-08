@@ -6,9 +6,11 @@ interface SidebarProps {
 
 export function Sidebar({ items }: SidebarProps) {
   return (
-    <aside className="hidden lg:flex h-screen w-72 flex-col border-r bg-slate-950 text-white">
-      <div className="border-b p-6 text-xl font-bold">P Collins</div>
-      <nav className="flex-1 p-4 space-y-2">
+    <aside className="hidden lg:flex h-screen w-72 flex-col border-r border-white/10 bg-[var(--color-brand-text)] text-white sticky left-0 top-0">
+      <div className="border-b border-white/10 p-6 text-xl font-bold">
+        P Collins
+      </div>
+      <nav className="flex-1 p-4 space-y-1">
         {items.map((item) => {
           const Icon = item.icon;
 
@@ -17,9 +19,11 @@ export function Sidebar({ items }: SidebarProps) {
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `flex items-center gap-3 rounded-lg px-4 py-3
-             ${isActive ? "bg-slate-800" : "hover:bg-slate-900"}
-            `
+                `flex items-center gap-3 rounded-lg px-4 py-3 transition-all duration-200
+                 ${isActive 
+                   ? "bg-[var(--color-brand-primary)] text-white" 
+                   : "text-white/80 hover:bg-white/10 hover:text-white"
+                 }`
               }
             >
               <Icon size={18} />

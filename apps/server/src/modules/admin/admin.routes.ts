@@ -51,3 +51,5 @@ router.get(
     authorize(UserRole.ADMIN, UserRole.SUPER_ADMIN),
     asyncHandler(controller.totalSavings)
   );
+
+export default router

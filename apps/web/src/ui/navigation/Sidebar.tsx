@@ -1,54 +1,34 @@
-import { LucideIcon } from "lucide-react";
-import { Link } from "react-router-dom";
-
-// Ensure this interface matches what your config files export!
-export interface SidebarItem {
-  label: string;
-  path: string;
-  icon?: LucideIcon; // 🟢 Hardlocked to LucideIcon component reference only
-}
+import { NavLink } from "react-router-dom";
 
 interface SidebarProps {
-  items: SidebarItem[];
+  items: any[];
 }
 
 export function Sidebar({ items }: SidebarProps) {
   return (
-    <aside
-      className="
-        h-screen
-        w-64
-        border-r
-        bg-slate-900
-        text-white
-      "
-    >
-      <div className="p-6 text-xl font-bold">P Collins</div>
-
-      <nav className="space-y-2 px-4">
+    <aside className="hidden lg:flex h-screen w-72 flex-col border-r border-white/10 bg-[var(--color-brand-text)] text-white sticky left-0 top-0">
+      <div className="border-b border-white/10 p-6">
+        <h2 className="text-xl font-bold">P Collins</h2>
+      </div>
+      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
         {items.map((item) => {
-          // 1. FIX: You must define 'Icon' locally inside the loop block on each pass
           const Icon = item.icon;
 
           return (
-            <Link
+            <NavLink
               key={item.path}
               to={item.path}
-              className="
-                flex
-                items-center
-                gap-3
-                rounded-lg
-                px-3
-                py-2
-                hover:bg-slate-800
-              "
+              className={({ isActive }) =>
+                `flex items-center gap-3 rounded-lg px-4 py-3 transition-all duration-200
+                 ${isActive 
+                   ? "bg-[var(--color-brand-primary)] text-white" 
+                   : "text-white/80 hover:bg-white/10 hover:text-white"
+                 }`
+              }
             >
-              {/* 2. FIX: Safely mounts the extracted component definition */}
               {Icon && <Icon size={20} />}
-
-              {item.label}
-            </Link>
+              <span>{item.label}</span>
+            </NavLink>
           );
         })}
       </nav>

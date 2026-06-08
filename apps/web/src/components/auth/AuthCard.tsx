@@ -1,23 +1,28 @@
-interface Props {
+import { ReactNode } from 'react';
+
+interface AuthCardProps {
   title: string;
   subtitle?: string;
-  children: React.ReactNode;
+  children: ReactNode;
+  footer?: ReactNode;
 }
 
-export function AuthCard({
-  title,
-
-  subtitle,
-
-  children,
-}: Props) {
+export const AuthCard = ({ title, subtitle, children, footer }: AuthCardProps) => {
   return (
-    <div className="w-full max-w-md rounded-xl border bg-white p-8 shadow-sm">
-      <h1 className="text-2xl font-bold">{title} </h1>
+    <div className="w-full max-w-md animate-slide-up">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-[var(--color-brand-text)]">{title}</h1>
+        {subtitle && <p className="mt-2 text-gray-600">{subtitle}</p>}
+      </div>
 
-      {subtitle && <p className="mt-2 text-slate-500">{subtitle}</p>}
-
-      <div className="mt-6">{children}</div>
+      <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+        {children}
+        {footer && (
+          <div className="mt-6 pt-4 border-t border-gray-100 text-center">
+            {footer}
+          </div>
+        )}
+      </div>
     </div>
   );
-}
+};

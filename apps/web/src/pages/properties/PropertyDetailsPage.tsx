@@ -2,6 +2,7 @@ import { InspectionBookingModal } from "@/components/properties/InspectionBookin
 import { PropertyRecommendations } from "@/components/properties/PropertyRecommendations";
 import { useProperty } from "@/hooks/useProperty";
 import { Skeleton } from "@/ui";
+import Container from "@/ui/components/Container";
 import { useParams } from "react-router-dom";
 
 export default function PropertyDetailsPage() {
@@ -14,6 +15,7 @@ export default function PropertyDetailsPage() {
   }
 
   return (
+    <Container>
     <div
       className="
      space-y-8
@@ -27,5 +29,6 @@ export default function PropertyDetailsPage() {
 
       <PropertyRecommendations />
     </div>
+    </Container>
   );
 }

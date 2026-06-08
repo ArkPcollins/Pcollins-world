@@ -1,7 +1,6 @@
-// review.controller.ts
 import { Response } from "express";
-import { apiResponse } from "@/utils/apiResponse";
 import { ReviewService } from "./review.service";
+import { apiResponse } from "../../../utils/apiResponse";
 
 export class ReviewController {
   private service = new ReviewService();
@@ -13,11 +12,13 @@ export class ReviewController {
       req.body.rating,
       req.body.comment
     );
-    return apiResponse(res, true, "Review created", review);
+    return apiResponse(res, true, "Review created successfully", review);
   };
 
   getProductReviews = async (req: any, res: Response) => {
-    const reviews = await this.service.getProductReviews(req.params.productId);
+    const page = req.query.page ? parseInt(req.query.page as string) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
+    const reviews = await this.service.getProductReviews(req.params.productId, page, limit);
     return apiResponse(res, true, "Reviews fetched", reviews);
   };
 
@@ -32,7 +33,15 @@ export class ReviewController {
   };
 
   deleteReview = async (req: any, res: Response) => {
-    await this.service.deleteReview(req.params.id, req.user.userId);
-    return apiResponse(res, true, "Review deleted");
+    const isAdmin = req.user.role === "ADMIN" || req.user.role === "SUPER_ADMIN";
+    await this.service.deleteReview(req.params.id, req.user.userId, isAdmin);
+    return apiResponse(res, true, "Review deleted successfully");
+  };
+
+  getMyReviews = async (req: any, res: Response) => {
+    const page = req.query.page ? parseInt(req.query.page as string) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
+    const reviews = await this.service.getUserReviews(req.user.userId, page, limit);
+    return apiResponse(res, true, "My reviews fetched", reviews);
   };
 }

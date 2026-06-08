@@ -14,4 +14,4 @@ const categorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const CategoryModel = mongoose.model("AuditLog", categorySchema);
+export const CategoryModel = mongoose.model("Category", categorySchema);

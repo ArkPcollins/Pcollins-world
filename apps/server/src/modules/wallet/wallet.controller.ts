@@ -1,6 +1,3 @@
-
-
-// modules/wallet/wallet.controller.ts
 import { Response } from "express";
 import { WalletService } from "./wallet.service";
 import { apiResponse } from "../../utils/apiResponse";
@@ -37,11 +34,9 @@ export class WalletController {
   };
 
   getTransactions = async (req: any, res: Response) => {
-    const transactions = await this.service.getTransactions(
-      req.user.userId,
-      req.query.page ? parseInt(req.query.page as string) : 1,
-      req.query.limit ? parseInt(req.query.limit as string) : 20
-    );
+    const page = req.query.page ? parseInt(req.query.page as string) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit as string) : 20;
+    const transactions = await this.service.getTransactions(req.user.userId, page, limit);
     return apiResponse(res, true, "Transactions fetched", transactions);
   };
 }
