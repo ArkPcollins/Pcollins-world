@@ -9,16 +9,18 @@
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "react",
+        "react-dom"
+      ]
+    }
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devEngines": {
-    "packageManager": {
-      "name": "pnpm",
-      "version": "^11.5.0",
-      "onFail": "download"
-    }
-  },
+  "packageManager": "pnpm@9.15.0", 
   "type": "module",
   "dependencies": {
     "@headlessui/react": "^2.2.10",
