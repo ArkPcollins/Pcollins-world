@@ -1,57 +1,32 @@
-import express from "express";
+import http from "http";
+import app from "./app.js";
+import { env } from "./config/env.js";
+import { connectDatabase } from "./config/database.js";
+import { logger } from "./config/logger.js";
+import { initSocket } from "./modules/realtime/socket/socket.server.js";
+import { connectRedis } from "./config/redis.js";
 
-import helmet from "helmet";
+// Import workers
+import "./modules/jobs/workers/email.worker.js";
+import "./modules/jobs/workers/notification.worker.js";
 
-import cors from "cors";
+const server = http.createServer(app);
 
-import compression from "compression";
+const io = initSocket(server);
 
-import rateLimit from "express-rate-limit";
+const PORT = Number(process.env.PORT) || 10000; 
 
-import swaggerUi from "swagger-ui-express";
+const startServer = async () => {
+  try {
+    server.listen(PORT,'0.0.0.0', async () => {
+      logger.info(`Server and WebSockets running on port ${PORT}`);
+      connectRedis();
+      await connectDatabase();
+    });
+  } catch (error) {
+    logger.error("Failed to start the server:", error as any);
+    process.exit(1);
+  }
+};
 
-import healthRoute from "./routes/health.route";
-
-import { swaggerSpec } from "./docs/swagger";
-
-import { requestLogger }
-from "./middleware/request-logger.middleware";
-
-import { errorMiddleware }
-from "./middleware/error.middleware";
-
-import { notFoundMiddleware }
-from "./middleware/not-found.middleware";
-
-const app = express();
-
-app.use(requestLogger);
-
-app.use(helmet());
-
-app.use(cors());
-
-app.use(compression());
-
-app.use(express.json());
-
-app.use(
-  rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100
-  })
-);
-
-app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec)
-);
-
-app.use("/api/v1", healthRoute);
-
-app.use(notFoundMiddleware);
-
-app.use(errorMiddleware);
-
-export default app;
+startServer();
