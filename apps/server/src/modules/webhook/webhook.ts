@@ -95,7 +95,7 @@ export class PaymentWebhookController {
           status: TransactionStatus.PENDING,
         };
 
-        // let transaction = await TransactionModel.findOne(transactionFilter);
+        let transaction = null
 
         // if (!transaction) {
         //   transactionFilter = {
@@ -107,12 +107,7 @@ export class PaymentWebhookController {
         // }
 
         for (let attempt = 1; attempt <= 3; attempt++) {
-            transaction = await TransactionModel.findOne({ 
-              reference: reference,
-              userId: userObjectId,
-              type: 'credit',
-              status: 'pending',
-            });
+            transaction = await TransactionModel.findOne(transactionFilter);
               
             if (!transaction) {
               transaction = await TransactionModel.findOne({ 
