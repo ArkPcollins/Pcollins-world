@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ProductService, dummyProducts } from "@/services/product.service";
+import { ProductService } from "@/services/product.service";
 import { ProductGrid } from "@/components/catalog/ProductGrid";
 import { ProductFilters } from "@/components/catalog/ProductFilters";
 import { ProductSearch } from "@/components/catalog/ProductSearch";
@@ -12,7 +12,7 @@ import { useAuthStore } from "@/store/auth.store";
 import { ProductListItem } from "@/components/products/ProductListItem";
 
 // Set this to false to use real API, true to use dummy data
-const USE_DUMMY_DATA = true;
+const USE_DUMMY_DATA = false;
 
 export default function ProductsPage() {
   const { user } = useAuthStore();
@@ -32,9 +32,7 @@ export default function ProductsPage() {
   const { data, isLoading, error } = useQuery({
     queryKey: ["products", page, filters, searchQuery],
     queryFn: () =>
-      USE_DUMMY_DATA
-        ? ProductService.getDummyProducts()
-        : ProductService.list({
+        ProductService.list({
             page,
             limit: 12,
             category: filters.category || undefined,
@@ -46,57 +44,15 @@ export default function ProductsPage() {
           }),
   });
 
-  // Filter dummy data based on search and filters
-  const getFilteredDummyData = () => {
-    let filtered = [...dummyProducts];
-    
-    if (searchQuery) {
-      filtered = filtered.filter(p => 
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.description.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-    
-    if (filters.category) {
-      filtered = filtered.filter(p => p.categoryId === filters.category);
-    }
-    
-    if (filters.minPrice) {
-      filtered = filtered.filter(p => p.price >= Number(filters.minPrice));
-    }
-    
-    if (filters.maxPrice) {
-      filtered = filtered.filter(p => p.price <= Number(filters.maxPrice));
-    }
-    
-    if (filters.rating) {
-      filtered = filtered.filter(p => p.rating >= Number(filters.rating));
-    }
-    
-    if (filters.inStock) {
-      filtered = filtered.filter(p => p.stock > 0);
-    }
-    
-    return filtered;
-  };
 
   const getDisplayData = () => {
-    if (USE_DUMMY_DATA) {
-      const filtered = getFilteredDummyData();
-      const start = (page - 1) * 12;
-      const end = start + 12;
-      return {
-        data: filtered.slice(start, end),
-        total: filtered.length,
-        totalPages: Math.ceil(filtered.length / 12),
-      };
-    }
     return {
-      data: data?.data || [],
+      data: data?.data.data || [],
       total: data?.total || 0,
       totalPages: data?.totalPages || 1,
     };
   };
+
 
   const displayData = getDisplayData();
   const products = displayData.data;
