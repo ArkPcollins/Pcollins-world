@@ -13,6 +13,7 @@ import {
   Building2
 } from "lucide-react";
 import toast from "react-hot-toast";
+import { PaystackService } from "@/services/paystack.service";
 
 interface GoalContributionModalProps {
   open: boolean;
@@ -96,11 +97,17 @@ export function GoalContributionModal({
   // Mutation for card payment (Paystack)
   const cardPaymentMutation = useMutation({
     mutationFn: (amount: number) => {
-      // First, initialize funding with Paystack
-      return WalletService.initializeFunding(amount);
+      // Use the unified initializePayment method
+      return PaystackService.initializePayment({
+        amount,
+        goalId: goalId,
+        goalType: 'individual',
+        goalName: goalName,
+        purpose: 'savings_contribution',
+      });
     },
     onSuccess: (response) => {
-      const { authorizationUrl, reference } = response.data;
+      const { authorization_url, reference } = response.data;
       
       // Store reference for verification
       sessionStorage.setItem('pendingFundingReference', reference);
@@ -108,12 +115,13 @@ export function GoalContributionModal({
         goalId,
         amount: parseFloat(amount),
         goalName,
+        goalType: 'individual',
       }));
       
       // Redirect to Paystack
-      if (authorizationUrl) {
+      if (authorization_url) {
         setIsRedirecting(true);
-        window.location.href = authorizationUrl;
+        window.location.href = authorization_url;
       }
       
       toast.success('Redirecting to payment page...');

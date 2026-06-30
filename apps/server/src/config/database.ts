@@ -11,9 +11,6 @@ export const connectDatabase =
         env.MONGO_URI
       );
 
-      await mongoose?.connection?.db.collection("transactions").dropIndex("reference_1");
-       console.log("✅ Successfully dropped old transaction index");
-
       logger.info(
         "MongoDB connected"
       );
